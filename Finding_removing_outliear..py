@@ -1,13 +1,27 @@
+# finding and removing outliers
+
 import pandas as pd
+import numpy as np
 
-df = pd.DataFrame({"Marks":[10,12,14,15,18,100]})
+df = pd.read_csv("auto-mpg.csv")
+print(df)
 
-Q1 = df["Marks"].quantile(0.25)
-Q3 = df["Marks"].quantile(0.75)
-IQR = Q3 - Q1
+# finding outliers
 
-lower = Q1 - 1.5 * IQR
-upper = Q3 + 1.5 * IQR
+q1 = df['acceleration'].quantile(0.25)
+q3 = df['acceleration'].quantile(0.75)
 
-outliers = df[(df["Marks"] < lower) | (df["Marks"] > upper)]
-print(outliers)
+IQR = q3 - q1
+
+low = q1 - (1.5*IQR)
+high = q3 + (1.5*IQR)
+
+print(low , high)
+
+# outLiers = df[(df['acceleration'] < low) | (df['acceleration'] > high)]
+# print(outLiers)
+
+# removing outliers
+
+removeOutliers = df[(df['acceleration'] >= low) & (df['acceleration'] <= high)]
+print(removeOutliers)
